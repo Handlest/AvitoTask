@@ -37,3 +37,13 @@ func (r *CreateUserPostgres) DeleteUser(userId int, segmentName string) error {
 	_, err := r.db.Exec(query, userId, segmentName)
 	return err
 }
+
+func (r *CreateUserPostgres) GetOperations(user avito.UserInfo) ([]avito.Operation, error) {
+	var operations []avito.Operation
+	query := fmt.Sprintf("SELECT * FROM %s WHERE user_id = $1 and operation_date >= to_timestamp($2, 'DD.MM.YYYY') and operation_date <= to_timestamp($3, 'DD.MM.YYYY')", operationsTable)
+	err := r.db.Select(&operations, query, user.UserId, user.StartDate, user.EndDate)
+	if err != nil {
+		return nil, err
+	}
+	return operations, nil
+}

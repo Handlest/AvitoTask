@@ -20,3 +20,7 @@ func (s *CreateService) CreateUser(user avito.User) error {
 func (s *CreateService) DeleteUser(userId int, segmentName string) error {
 	return s.repo.DeleteUser(userId, segmentName)
 }
+
+func (s *CreateService) GetOperations(user avito.UserInfo) ([]avito.Operation, error) {
+	return s.repo.GetOperations(user)
+}

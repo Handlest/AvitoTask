@@ -55,3 +55,24 @@ func (h *Handler) deleteUser(c *gin.Context) {
 		Status: "Delete operation success!",
 	})
 }
+
+type getAllUserOperationsResponse struct {
+	Data []avito.Operation `json:"data"`
+}
+
+func (h *Handler) getUserInfo(c *gin.Context) {
+	var user avito.UserInfo
+	if err := c.BindJSON(&user); err != nil {
+		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	operations, err := h.services.GetOperations(user)
+	if err != nil {
+		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllUserOperationsResponse{
+		Data: operations,
+	})
+}

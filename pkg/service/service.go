@@ -8,6 +8,7 @@ import (
 type User interface {
 	CreateUser(user avito.User) error
 	DeleteUser(userId int, segmentName string) error
+	GetOperations(user avito.UserInfo) ([]avito.Operation, error)
 }
 
 type Segment interface {

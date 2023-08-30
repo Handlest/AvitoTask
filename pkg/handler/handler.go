@@ -41,7 +41,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			users.POST("/", h.createUser)   //done
 			users.DELETE("/", h.deleteUser) //done
 
-			userInfo := api.Group("/userInfo")
+			userInfo := api.Group("/userInfo") //done
 			{
 				userInfo.POST("/", h.getUserInfo)
 			}
