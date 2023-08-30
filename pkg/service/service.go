@@ -10,6 +10,7 @@ type User interface {
 }
 
 type Segment interface {
+	CreateSegment(segment avito.Segment) (bool, error)
 }
 type Operation interface {
 }
@@ -20,5 +21,8 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{User: NewCreateService(repos.User)}
+	return &Service{
+		User:    NewCreateService(repos.User),
+		Segment: NewSegmentService(repos.Segment),
+	}
 }

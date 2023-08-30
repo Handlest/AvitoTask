@@ -1,5 +1,5 @@
 package avito
 
 type Segment struct {
-	Segment string `json:"segment" binding:"required"`
+	SegmentName string `json:"segment_name" binding:"required"`
 }

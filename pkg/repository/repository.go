@@ -10,6 +10,7 @@ type User interface {
 }
 
 type Segment interface {
+	CreateSegment(segment avito.Segment) (bool, error)
 }
 type Operation interface {
 }
@@ -20,5 +21,5 @@ type Repository struct {
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{User: NewCreateUserPostgres(db)}
+	return &Repository{User: NewCreateUserPostgres(db), Segment: NewSegmentPostgres(db)}
 }
