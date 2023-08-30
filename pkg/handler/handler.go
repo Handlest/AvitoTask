@@ -28,19 +28,22 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		segments := api.Group("/segments")
 		{
-			segments.POST("/", h.createSegment)
-			segments.DELETE("/:name", h.deleteSegment)
-			segments.GET("/", h.getAllSegments)
+			segments.POST("/", h.createSegment)   //done
+			segments.DELETE("/", h.deleteSegment) //done
+
+			getUserSegment := api.Group("/getUserSegments")
+			{
+				getUserSegment.POST("/", h.getUserSegments) //done
+			}
 		}
 		users := api.Group("/users")
 		{
-			users.POST("/", h.createUser)
-			users.POST("/:ttl", h.createUserTTL)
-			users.DELETE("/:id", h.deleteUser)
+			users.POST("/", h.createUser)   //done
+			users.DELETE("/", h.deleteUser) //done
 
 			userInfo := api.Group("/userInfo")
 			{
-				userInfo.GET("/:dateRange", h.getUserInfo)
+				userInfo.POST("/", h.getUserInfo)
 			}
 		}
 	}

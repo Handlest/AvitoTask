@@ -15,14 +15,25 @@ func NewCreateUserPostgres(db *sqlx.DB) *CreateUserPostgres {
 	return &CreateUserPostgres{db: db}
 }
 
-func (r *CreateUserPostgres) CreateUser(user avito.User) (int, error) {
-	fmt.Println("CreateUserFromRepository!!")
-
-	var id int
-	query := fmt.Sprintf("INSERT INTO %s (user_Id, segment_name, added, expiry) VALUES ($1, $2, $3, $4) RETURNING user_id", usersTable)
-	row := r.db.QueryRow(query, user.UserId, user.SegmentName, time.Now(), user.Expiry)
-	if err := row.Scan(&id); err != nil {
-		return 0, err
+func (r *CreateUserPostgres) CreateUser(user avito.User) error {
+	var expiryDate string
+	var additionTime = time.Now()
+	if user.Expiry == "" {
+		expiryDate = "3023-08-30"
+	} else {
+		expiryDate = user.Expiry
 	}
-	return id, nil
+	userQuery := fmt.Sprintf("INSERT INTO %s (user_Id, segment_name, added, expiry) VALUES ($1, $2, $3, $4)", usersTable)
+	_, err := r.db.Exec(userQuery, user.UserId, user.SegmentName, additionTime, expiryDate)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *CreateUserPostgres) DeleteUser(userId int, segmentName string) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE user_id = $1 AND segment_name = $2", usersTable)
+	_, err := r.db.Exec(query, userId, segmentName)
+	return err
 }

@@ -2,32 +2,56 @@ package handler
 
 import (
 	avito "AvitoTask"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func (h *Handler) createUser(c *gin.Context) {
-	var input avito.User
-	fmt.Println("Я тута!!!")
-	if err := c.BindJSON(&input); err != nil {
+	var users avito.UserList
+
+	if err := c.BindJSON(&users); err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Println("И тута!!!")
-	id, err := h.services.CreateUser(input) //!!!
-	if err != nil {
-		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+
+	var input avito.User
+	input.UserId = users.UserId
+	input.Added = users.Added
+	input.Expiry = users.Expiry
+
+	for _, segmentName := range users.SegmentNamesAdd {
+		input.SegmentName = segmentName
+		err := h.services.CreateUser(input)
+		if err != nil {
+			NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		}
 	}
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
+
+	for _, segmentName := range users.SegmentNamesRemove {
+		err := h.services.DeleteUser(users.UserId, segmentName)
+		if err != nil {
+			NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		}
+	}
+
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "All operations success!",
 	})
 }
 
-func (h *Handler) createUserTTL(c *gin.Context) {
-
-}
-
 func (h *Handler) deleteUser(c *gin.Context) {
+	userId, segmentName, err := getSegmentNameWithUserId(c)
+	if err != nil {
+		return
+	}
 
+	err = h.services.DeleteUser(userId, segmentName)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "Delete operation success!",
+	})
 }

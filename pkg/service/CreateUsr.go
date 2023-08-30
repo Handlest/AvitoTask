@@ -3,7 +3,6 @@ package service
 import (
 	avito "AvitoTask"
 	"AvitoTask/pkg/repository"
-	"fmt"
 )
 
 type CreateService struct {
@@ -14,7 +13,10 @@ func NewCreateService(repo repository.User) *CreateService {
 	return &CreateService{repo: repo}
 }
 
-func (s *CreateService) CreateUser(user avito.User) (int, error) {
-	fmt.Println("CreateUSR from service")
+func (s *CreateService) CreateUser(user avito.User) error {
 	return s.repo.CreateUser(user)
+}
+
+func (s *CreateService) DeleteUser(userId int, segmentName string) error {
+	return s.repo.DeleteUser(userId, segmentName)
 }

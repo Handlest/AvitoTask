@@ -6,11 +6,14 @@ import (
 )
 
 type User interface {
-	CreateUser(user avito.User) (int, error)
+	CreateUser(user avito.User) error
+	DeleteUser(userId int, segmentName string) error
 }
 
 type Segment interface {
 	CreateSegment(segment avito.Segment) (bool, error)
+	GetSegments(userId int) ([]avito.Segment, error)
+	DeleteSegment(segmentName string) error
 }
 type Operation interface {
 }
