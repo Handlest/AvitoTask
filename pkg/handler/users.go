@@ -7,7 +7,7 @@ import (
 )
 
 // @Summary createUser
-// @Tags user
+// @Tags users
 // @Description Добавление и удаление пользователя в указанные сегменты
 // @ID create-user
 // @Accept json
@@ -18,7 +18,6 @@ import (
 // @Failure 500 {object} customError
 // @Failure default {object} customError
 // @Router /api/users [post]
-
 func (h *Handler) createUser(c *gin.Context) {
 	var users avito.UserList
 
@@ -53,7 +52,7 @@ func (h *Handler) createUser(c *gin.Context) {
 }
 
 // @Summary deleteUser
-// @Tags user
+// @Tags users
 // @Description Удаление пользователя из сегмента
 // @ID delete-user
 // @Accept json
@@ -63,7 +62,6 @@ func (h *Handler) createUser(c *gin.Context) {
 // @Failure 500 {object} customError
 // @Failure default {object} customError
 // @Router /api/users [delete]
-
 func (h *Handler) deleteUser(c *gin.Context) {
 	userId, segmentName, err := getSegmentNameWithUserId(c)
 	if err != nil {
@@ -82,7 +80,7 @@ func (h *Handler) deleteUser(c *gin.Context) {
 }
 
 // @Summary getUserInfo
-// @Tags user
+// @Tags users
 // @Description Получение информации о добавлении и удалении пользователя в сегменты во временном промежутке
 // @ID get-user-info
 // @Accept json
@@ -93,7 +91,6 @@ func (h *Handler) deleteUser(c *gin.Context) {
 // @Failure 500 {object} customError
 // @Failure default {object} customError
 // @Router /api/userInfo [post]
-
 func (h *Handler) getUserInfo(c *gin.Context) {
 	var user avito.UserInfo
 	if err := c.BindJSON(&user); err != nil {

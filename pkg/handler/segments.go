@@ -46,7 +46,7 @@ func (h *Handler) createSegment(c *gin.Context) {
 
 // @Summary getUserSegments
 // @Tags segment
-// @Description Получение всех пользователя
+// @Description Получение всех сегментов пользователя
 // @ID get-user-segments
 // @Accept json
 // @Produce json

@@ -1,5 +1,16 @@
 basePath: /
 definitions:
+  avito.Operation:
+    properties:
+      dateTime:
+        type: string
+      operation_type:
+        type: string
+      segment_name:
+        type: string
+      userId:
+        type: integer
+    type: object
   avito.Segment:
     properties:
       segment_name:
@@ -7,10 +18,44 @@ definitions:
     required:
     - segment_name
     type: object
+  avito.User:
+    properties:
+      added:
+        type: string
+      expiry:
+        type: string
+      segment_name:
+        type: string
+      userId:
+        type: integer
+    required:
+    - segment_name
+    - userId
+    type: object
+  avito.UserInfo:
+    properties:
+      end:
+        type: string
+      start:
+        type: string
+      userId:
+        type: integer
+    required:
+    - end
+    - start
+    - userId
+    type: object
   handler.customError:
     properties:
       message:
         type: string
+    type: object
+  handler.getAllUserOperationsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/avito.Operation'
+        type: array
     type: object
   handler.getAllUserSegmentsResponse:
     properties:
@@ -74,7 +119,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Получение всех пользователя
+      description: Получение всех сегментов пользователя
       operationId: get-user-segments
       produces:
       - application/json
@@ -172,4 +217,114 @@ paths:
       summary: createSegment
       tags:
       - segment
+  /api/userInfo:
+    post:
+      consumes:
+      - application/json
+      description: Получение информации о добавлении и удалении пользователя в сегменты
+        во временном промежутке
+      operationId: get-user-info
+      parameters:
+      - description: user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/avito.UserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.getAllUserOperationsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.customError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.customError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.customError'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.customError'
+      summary: getUserInfo
+      tags:
+      - users
+  /api/users:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление пользователя из сегмента
+      operationId: delete-user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.customError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.customError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.customError'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.customError'
+      summary: deleteUser
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Добавление и удаление пользователя в указанные сегменты
+      operationId: create-user
+      parameters:
+      - description: user data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/avito.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.customError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.customError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.customError'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.customError'
+      summary: createUser
+      tags:
+      - users
 swagger: "2.0"
