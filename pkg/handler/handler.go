@@ -2,8 +2,8 @@ package handler
 
 import (
 	"AvitoTask/pkg/service"
+	_ "github.com/Handlest/AvitoTask/docs"
 	"github.com/gin-gonic/gin"
-	_ "github.com/handlest/avitotask/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
