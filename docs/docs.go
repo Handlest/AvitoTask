@@ -15,65 +15,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/getUserInfo": {
-            "post": {
-                "description": "Создание нового сегмента",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "segment"
-                ],
-                "summary": "createSegment",
-                "operationId": "create-segment",
-                "parameters": [
-                    {
-                        "description": "segment data",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/avito.Segment"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "response",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/handler.customError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/handler.customError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/handler.customError"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/handler.customError"
-                        }
-                    }
-                }
-            }
-        },
         "/api/getUserSegments": {
             "post": {
                 "description": "Получение всех сегментов пользователя",
@@ -243,8 +184,8 @@ const docTemplate = `{
                 "operationId": "get-user-info",
                 "parameters": [
                     {
-                        "description": "user data",
-                        "name": "user",
+                        "description": "user operations data",
+                        "name": "usr",
                         "in": "body",
                         "required": true,
                         "schema": {

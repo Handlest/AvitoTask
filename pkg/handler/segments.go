@@ -17,7 +17,6 @@ import (
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
 // @Failure		default	{object}	customError
-// @Router			/api/getUserInfo [post]
 // @Router			/api/segments [post]
 func (h *Handler) createSegment(c *gin.Context) {
 	var input avito.Segment

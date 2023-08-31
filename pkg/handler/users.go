@@ -85,19 +85,19 @@ func (h *Handler) deleteUser(c *gin.Context) {
 // @ID				get-user-info
 // @Accept			json
 // @Produce		json
-// @Param			user	body		avito.UserInfo	true	"user data"
+// @Param			usr		body		avito.UserInfo	true	"user operations data"
 // @Success		200		{object}	getAllUserOperationsResponse
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
 // @Failure		default	{object}	customError
 // @Router			/api/userInfo [post]
 func (h *Handler) getUserInfo(c *gin.Context) {
-	var user avito.UserInfo
-	if err := c.BindJSON(&user); err != nil {
+	var usr avito.UserInfo
+	if err := c.BindJSON(&usr); err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	operations, err := h.services.GetOperations(user)
+	operations, err := h.services.GetOperations(usr)
 	if err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return

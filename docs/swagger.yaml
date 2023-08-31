@@ -76,45 +76,6 @@ info:
   title: Avito Trainee Application
   version: "1.0"
 paths:
-  /api/getUserInfo:
-    post:
-      consumes:
-      - application/json
-      description: Создание нового сегмента
-      operationId: create-segment
-      parameters:
-      - description: segment data
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/avito.Segment'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: response
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.customError'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.customError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.customError'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.customError'
-      summary: createSegment
-      tags:
-      - segment
   /api/getUserSegments:
     post:
       consumes:
@@ -225,9 +186,9 @@ paths:
         во временном промежутке
       operationId: get-user-info
       parameters:
-      - description: user data
+      - description: user operations data
         in: body
-        name: user
+        name: usr
         required: true
         schema:
           $ref: '#/definitions/avito.UserInfo'
