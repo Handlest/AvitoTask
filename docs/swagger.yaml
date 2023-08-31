@@ -18,18 +18,18 @@ definitions:
     required:
     - segment_name
     type: object
-  avito.User:
+  avito.SegmentInSwagger:
     properties:
-      added:
+      segmentName:
         type: string
-      expiry:
-        type: string
-      segment_name:
-        type: string
+    required:
+    - segmentName
+    type: object
+  avito.UserIdOnly:
+    properties:
       userId:
         type: integer
     required:
-    - segment_name
     - userId
     type: object
   avito.UserInfo:
@@ -43,6 +43,37 @@ definitions:
     required:
     - end
     - start
+    - userId
+    type: object
+  avito.UserList:
+    properties:
+      added:
+        type: string
+      expiry:
+        type: string
+      segment_names_add:
+        items:
+          type: string
+        type: array
+      segment_names_remove:
+        items:
+          type: string
+        type: array
+      userId:
+        type: integer
+    required:
+    - segment_names_add
+    - segment_names_remove
+    - userId
+    type: object
+  avito.UserSegmentWithId:
+    properties:
+      segmentName:
+        type: string
+      userId:
+        type: integer
+    required:
+    - segmentName
     - userId
     type: object
   handler.customError:
@@ -82,6 +113,13 @@ paths:
       - application/json
       description: Получение всех сегментов пользователя
       operationId: get-user-segments
+      parameters:
+      - description: id пользователя
+        in: body
+        name: userId
+        required: true
+        schema:
+          $ref: '#/definitions/avito.UserIdOnly'
       produces:
       - application/json
       responses:
@@ -114,6 +152,13 @@ paths:
       - application/json
       description: Удаление сегмента
       operationId: delete-segment
+      parameters:
+      - description: Имя удаляемого сегмента
+        in: body
+        name: segmentName
+        required: true
+        schema:
+          $ref: '#/definitions/avito.SegmentInSwagger'
       produces:
       - application/json
       responses:
@@ -146,7 +191,7 @@ paths:
       description: Создание нового сегмента
       operationId: create-segment
       parameters:
-      - description: segment data
+      - description: Имя нового сегмента
         in: body
         name: input
         required: true
@@ -186,9 +231,10 @@ paths:
         во временном промежутке
       operationId: get-user-info
       parameters:
-      - description: user operations data
+      - description: id пользователя и временной промежуток. Поля end и start являются
+          строками и имеют формат записи ДД.ММ.ГГГГ
         in: body
-        name: usr
+        name: user
         required: true
         schema:
           $ref: '#/definitions/avito.UserInfo'
@@ -217,13 +263,20 @@ paths:
             $ref: '#/definitions/handler.customError'
       summary: getUserInfo
       tags:
-      - users
+      - user
   /api/users/:
     delete:
       consumes:
       - application/json
       description: Удаление пользователя из сегмента
       operationId: delete-user
+      parameters:
+      - description: id пользователя и название сегмента, из которого его нужно удалить
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/avito.UserSegmentWithId'
       produces:
       - application/json
       responses:
@@ -249,19 +302,22 @@ paths:
             $ref: '#/definitions/handler.customError'
       summary: deleteUser
       tags:
-      - users
+      - user
     post:
       consumes:
       - application/json
       description: Добавление и удаление пользователя в указанные сегменты
       operationId: create-user
       parameters:
-      - description: user data
+      - description: Поля added и expiry являются необязательными и имеют формат ДД.ММ.ГГГГ.
+          segment_names_add - список сегментов, в которые нужно добавить пользователя.
+          segment_names_remove - список сегментов, из которых нужно удалить пользователя.
+          Названия сегментов в списках перечисляются через запятую
         in: body
         name: input
         required: true
         schema:
-          $ref: '#/definitions/avito.User'
+          $ref: '#/definitions/avito.UserList'
       produces:
       - application/json
       responses:
@@ -287,5 +343,5 @@ paths:
             $ref: '#/definitions/handler.customError'
       summary: createUser
       tags:
-      - users
+      - user
 swagger: "2.0"

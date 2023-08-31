@@ -7,12 +7,12 @@ import (
 )
 
 // @Summary		createUser
-// @Tags			users
+// @Tags			user
 // @Description	Добавление и удаление пользователя в указанные сегменты
 // @ID				create-user
 // @Accept			json
 // @Produce		json
-// @Param			input	body		avito.User	true	"user data"
+// @Param			input	body		avito.UserList	true	"Поля added и expiry являются необязательными и имеют формат ДД.ММ.ГГГГ. segment_names_add - список сегментов, в которые нужно добавить пользователя. segment_names_remove - список сегментов, из которых нужно удалить пользователя. Названия сегментов в списках перечисляются через запятую"
 // @Success		200		{object}	statusResponse
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
@@ -52,11 +52,12 @@ func (h *Handler) createUser(c *gin.Context) {
 }
 
 // @Summary		deleteUser
-// @Tags			users
+// @Tags			user
 // @Description	Удаление пользователя из сегмента
 // @ID				delete-user
 // @Accept			json
 // @Produce		json
+// @Param			user		body		avito.UserSegmentWithId	true	"id пользователя и название сегмента, из которого его нужно удалить"
 // @Success		200		{object}	statusResponse
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
@@ -80,12 +81,12 @@ func (h *Handler) deleteUser(c *gin.Context) {
 }
 
 // @Summary		getUserInfo
-// @Tags			users
+// @Tags			user
 // @Description	Получение информации о добавлении и удалении пользователя в сегменты во временном промежутке
 // @ID				get-user-info
 // @Accept			json
 // @Produce		json
-// @Param			usr		body		avito.UserInfo	true	"user operations data"
+// @Param			user		body		avito.UserInfo	true	"id пользователя и временной промежуток. Поля end и start являются строками и имеют формат записи ДД.ММ.ГГГГ"
 // @Success		200		{object}	getAllUserOperationsResponse
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError

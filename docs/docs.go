@@ -29,6 +29,17 @@ const docTemplate = `{
                 ],
                 "summary": "getUserSegments",
                 "operationId": "get-user-segments",
+                "parameters": [
+                    {
+                        "description": "id пользователя",
+                        "name": "userId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/avito.UserIdOnly"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -79,7 +90,7 @@ const docTemplate = `{
                 "operationId": "create-segment",
                 "parameters": [
                     {
-                        "description": "segment data",
+                        "description": "Имя нового сегмента",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -134,6 +145,17 @@ const docTemplate = `{
                 ],
                 "summary": "deleteSegment",
                 "operationId": "delete-segment",
+                "parameters": [
+                    {
+                        "description": "Имя удаляемого сегмента",
+                        "name": "segmentName",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/avito.SegmentInSwagger"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -178,14 +200,14 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "user"
                 ],
                 "summary": "getUserInfo",
                 "operationId": "get-user-info",
                 "parameters": [
                     {
-                        "description": "user operations data",
-                        "name": "usr",
+                        "description": "id пользователя и временной промежуток. Поля end и start являются строками и имеют формат записи ДД.ММ.ГГГГ",
+                        "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -237,18 +259,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "user"
                 ],
                 "summary": "createUser",
                 "operationId": "create-user",
                 "parameters": [
                     {
-                        "description": "user data",
+                        "description": "Поля added и expiry являются необязательными и имеют формат ДД.ММ.ГГГГ. segment_names_add - список сегментов, в которые нужно добавить пользователя. segment_names_remove - список сегментов, из которых нужно удалить пользователя. Названия сегментов в списках перечисляются через запятую",
                         "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/avito.User"
+                            "$ref": "#/definitions/avito.UserList"
                         }
                     }
                 ],
@@ -294,10 +316,21 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "user"
                 ],
                 "summary": "deleteUser",
                 "operationId": "delete-user",
+                "parameters": [
+                    {
+                        "description": "id пользователя и название сегмента, из которого его нужно удалить",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/avito.UserSegmentWithId"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -362,22 +395,23 @@ const docTemplate = `{
                 }
             }
         },
-        "avito.User": {
+        "avito.SegmentInSwagger": {
             "type": "object",
             "required": [
-                "segment_name",
+                "segmentName"
+            ],
+            "properties": {
+                "segmentName": {
+                    "type": "string"
+                }
+            }
+        },
+        "avito.UserIdOnly": {
+            "type": "object",
+            "required": [
                 "userId"
             ],
             "properties": {
-                "added": {
-                    "type": "string"
-                },
-                "expiry": {
-                    "type": "string"
-                },
-                "segment_name": {
-                    "type": "string"
-                },
                 "userId": {
                     "type": "integer"
                 }
@@ -395,6 +429,52 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "start": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "avito.UserList": {
+            "type": "object",
+            "required": [
+                "segment_names_add",
+                "segment_names_remove",
+                "userId"
+            ],
+            "properties": {
+                "added": {
+                    "type": "string"
+                },
+                "expiry": {
+                    "type": "string"
+                },
+                "segment_names_add": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "segment_names_remove": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "avito.UserSegmentWithId": {
+            "type": "object",
+            "required": [
+                "segmentName",
+                "userId"
+            ],
+            "properties": {
+                "segmentName": {
                     "type": "string"
                 },
                 "userId": {

@@ -12,7 +12,7 @@ import (
 // @ID				create-segment
 // @Accept			json
 // @Produce		json
-// @Param			input	body		avito.Segment	true	"segment data"
+// @Param			input	body		avito.Segment	true	"Имя нового сегмента"
 // @Success		200		{string}	string			"response"
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
@@ -49,6 +49,7 @@ func (h *Handler) createSegment(c *gin.Context) {
 // @ID				get-user-segments
 // @Accept			json
 // @Produce		json
+// @Param			userId		body		avito.UserIdOnly	true	"id пользователя"
 // @Success		200		{object}	getAllUserSegmentsResponse
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
@@ -72,6 +73,7 @@ func (h *Handler) getUserSegments(c *gin.Context) {
 // @ID				delete-segment
 // @Accept			json
 // @Produce		json
+// @Param			segmentName		body		avito.SegmentInSwagger	true	"Имя удаляемого сегмента"
 // @Success		200		{object}	statusResponse
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
