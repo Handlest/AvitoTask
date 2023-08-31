@@ -168,7 +168,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/userInfo": {
+        "/api/userInfo/": {
             "post": {
                 "description": "Получение информации о добавлении и удалении пользователя в сегменты во временном промежутке",
                 "consumes": [
@@ -227,7 +227,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/users": {
+        "/api/users/": {
             "post": {
                 "description": "Добавление и удаление пользователя в указанные сегменты",
                 "consumes": [

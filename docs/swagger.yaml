@@ -178,7 +178,7 @@ paths:
       summary: createSegment
       tags:
       - segment
-  /api/userInfo:
+  /api/userInfo/:
     post:
       consumes:
       - application/json
@@ -218,7 +218,7 @@ paths:
       summary: getUserInfo
       tags:
       - users
-  /api/users:
+  /api/users/:
     delete:
       consumes:
       - application/json

@@ -17,7 +17,7 @@ import (
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
 // @Failure		default	{object}	customError
-// @Router			/api/users [post]
+// @Router			/api/users/ [post]
 func (h *Handler) createUser(c *gin.Context) {
 	var users avito.UserList
 
@@ -61,7 +61,7 @@ func (h *Handler) createUser(c *gin.Context) {
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
 // @Failure		default	{object}	customError
-// @Router			/api/users [delete]
+// @Router			/api/users/ [delete]
 func (h *Handler) deleteUser(c *gin.Context) {
 	userId, segmentName, err := getSegmentNameWithUserId(c)
 	if err != nil {
@@ -90,7 +90,7 @@ func (h *Handler) deleteUser(c *gin.Context) {
 // @Failure		400,404	{object}	customError
 // @Failure		500		{object}	customError
 // @Failure		default	{object}	customError
-// @Router			/api/userInfo [post]
+// @Router			/api/userInfo/ [post]
 func (h *Handler) getUserInfo(c *gin.Context) {
 	var usr avito.UserInfo
 	if err := c.BindJSON(&usr); err != nil {
