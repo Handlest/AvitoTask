@@ -16,7 +16,8 @@
 
 ### Для запуска приложения(unix):
 ```
-make build && make run
+make build
+make run
 ```
 Если приложение запускается впервые, необходимо применить миграции к базе данных:
 ```
@@ -46,3 +47,5 @@ migrate -path ./schema -database 'postgres://postgres:password@localhost:5436/po
 go run cmd/main.go   
 ```
 
+### Примечание
+Необходимость повторого вызова docker-compose up после build вызвана медленной инициализацией базы данных. Данную проблему можно исправить, если при запуске копировать внутрь контейнера и вызывать скрипт wait-for-postgres.sh
