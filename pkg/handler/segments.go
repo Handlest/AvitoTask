@@ -66,17 +66,6 @@ func (h *Handler) getUserSegments(c *gin.Context) {
 	})
 }
 
-// @Summary		deleteSegment
-// @Tags			segment
-// @Description	Удаление сегмента
-// @ID				delete-segment
-// @Accept			json
-// @Produce		json
-// @Success		200		{object}	statusResponse
-// @Failure		400,404	{object}	customError
-// @Failure		500		{object}	customError
-// @Failure		default	{object}	customError
-// @Router			/api/segments [delete]
 func (h *Handler) deleteSegment(c *gin.Context) {
 	segmentName, err := getSegmentName(c)
 	if err != nil {

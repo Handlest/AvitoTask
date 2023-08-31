@@ -109,37 +109,6 @@ paths:
       tags:
       - segment
   /api/segments:
-    delete:
-      consumes:
-      - application/json
-      description: Удаление сегмента
-      operationId: delete-segment
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/handler.statusResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.customError'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.customError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.customError'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.customError'
-      summary: deleteSegment
-      tags:
-      - segment
     post:
       consumes:
       - application/json
