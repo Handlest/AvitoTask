@@ -6,6 +6,19 @@ import (
 	"net/http"
 )
 
+// @Summary createUser
+// @Tags user
+// @Description Добавление и удаление пользователя в указанные сегменты
+// @ID create-user
+// @Accept json
+// @Produce json
+// @Param input body avito.User true "user data"
+// @Success 200 {object} statusResponse
+// @Failure 400,404 {object} customError
+// @Failure 500 {object} customError
+// @Failure default {object} customError
+// @Router /api/users [post]
+
 func (h *Handler) createUser(c *gin.Context) {
 	var users avito.UserList
 
@@ -39,6 +52,18 @@ func (h *Handler) createUser(c *gin.Context) {
 	})
 }
 
+// @Summary deleteUser
+// @Tags user
+// @Description Удаление пользователя из сегмента
+// @ID delete-user
+// @Accept json
+// @Produce json
+// @Success 200 {object} statusResponse
+// @Failure 400,404 {object} customError
+// @Failure 500 {object} customError
+// @Failure default {object} customError
+// @Router /api/users [delete]
+
 func (h *Handler) deleteUser(c *gin.Context) {
 	userId, segmentName, err := getSegmentNameWithUserId(c)
 	if err != nil {
@@ -56,9 +81,18 @@ func (h *Handler) deleteUser(c *gin.Context) {
 	})
 }
 
-type getAllUserOperationsResponse struct {
-	Data []avito.Operation `json:"data"`
-}
+// @Summary getUserInfo
+// @Tags user
+// @Description Получение информации о добавлении и удалении пользователя в сегменты во временном промежутке
+// @ID get-user-info
+// @Accept json
+// @Produce json
+// @Param user body avito.UserInfo true "user data"
+// @Success 200 {object} getAllUserOperationsResponse
+// @Failure 400,404 {object} customError
+// @Failure 500 {object} customError
+// @Failure default {object} customError
+// @Router /api/userInfo [post]
 
 func (h *Handler) getUserInfo(c *gin.Context) {
 	var user avito.UserInfo

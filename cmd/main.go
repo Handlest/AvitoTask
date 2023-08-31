@@ -10,6 +10,13 @@ import (
 	"log"
 )
 
+// @title Avito Trainee Application
+// @version 1.0
+// @description API Application task for backend trainee position
+
+// @host localhost:8000
+// @BasePath /
+
 func main() {
 
 	//Считали логи из файла, сохраняя их в viper
